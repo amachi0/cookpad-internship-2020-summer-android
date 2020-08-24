@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.cookpad.android.minicookpad.databinding.ActivityRecipeCreateBinding
+import com.cookpad.android.minicookpad.recipe_create.RecipeCreateViewModel
 
 class RecipeCreateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecipeCreateBinding
