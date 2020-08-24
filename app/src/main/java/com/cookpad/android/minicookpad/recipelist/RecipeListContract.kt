@@ -2,7 +2,7 @@ package com.cookpad.android.minicookpad.recipelist
 
 interface RecipeListContract {
     interface View {
-        fun renderRecipeList(recipeList: List<RecipeListContract.Recipe>)
+        fun renderRecipeList(recipeList: List<Recipe>)
         fun renderError(exception: Throwable)
     }
 
