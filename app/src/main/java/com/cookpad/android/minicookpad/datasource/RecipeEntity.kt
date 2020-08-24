@@ -1,9 +1,9 @@
-package com.cookpad.android.minicookpad
+package com.cookpad.android.minicookpad.datasource
 
 import com.google.firebase.firestore.DocumentSnapshot
 import java.security.SecureRandom
 
-data class Recipe(
+data class RecipeEntity(
     val id: String = generateId(),
     val title: String,
     val imagePath: String?,
@@ -18,13 +18,13 @@ data class Recipe(
     )
 
     companion object {
-        fun fromDocument(document: DocumentSnapshot): Recipe? {
+        fun fromDocument(document: DocumentSnapshot): RecipeEntity? {
             return try {
                 val steps = (document["steps"] as? List<*>)
                     ?.filterIsInstance<String>()
                     ?: emptyList()
 
-                Recipe(
+                RecipeEntity(
                     id = document.id,
                     title = document["title"] as String,
                     imagePath = document["imagePath"] as? String,

@@ -1,10 +1,11 @@
-package com.cookpad.android.minicookpad
+package com.cookpad.android.minicookpad.recipelist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.cookpad.android.minicookpad.R
 import com.cookpad.android.minicookpad.databinding.ListitemRecipeBinding
 import com.google.firebase.storage.FirebaseStorage
 
@@ -14,7 +15,7 @@ class RecipeListAdapter(
     private val onRecipeClickListener: OnRecipeClickListener
 ) : RecyclerView.Adapter<RecipeListAdapter.RecipeViewHolder>() {
 
-    private var recipeList: List<Recipe> = mutableListOf()
+    private var recipeList: List<RecipeListContract.Recipe> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val binding = ListitemRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -32,7 +33,7 @@ class RecipeListAdapter(
     override fun getItemViewType(position: Int): Int =
         R.layout.listitem_recipe
 
-    fun update(recipeList: List<Recipe>) {
+    fun update(recipeList: List<RecipeListContract.Recipe>) {
         DiffUtil
             .calculateDiff(
                 RecipeDiffCallback(
@@ -49,7 +50,7 @@ class RecipeListAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         private val context = binding.root.context
 
-        fun bind(recipe: Recipe, onRecipeClickListener: OnRecipeClickListener) {
+        fun bind(recipe: RecipeListContract.Recipe, onRecipeClickListener: OnRecipeClickListener) {
             binding.root.setOnClickListener {
                 recipe.id?.let { id -> onRecipeClickListener.invoke(id, recipe.title) }
             }
@@ -60,13 +61,13 @@ class RecipeListAdapter(
                     .load(FirebaseStorage.getInstance().reference.child(path))
                     .into(binding.image)
             }
-            binding.steps.text = recipe.steps.joinToString("、")
+            binding.steps.text = recipe.steps
         }
     }
 
     class RecipeDiffCallback(
-        private val oldList: List<Recipe>,
-        private val newList: List<Recipe>
+        private val oldList: List<RecipeListContract.Recipe>,
+        private val newList: List<RecipeListContract.Recipe>
     ) : DiffUtil.Callback() {
         override fun getOldListSize(): Int = oldList.size
 
