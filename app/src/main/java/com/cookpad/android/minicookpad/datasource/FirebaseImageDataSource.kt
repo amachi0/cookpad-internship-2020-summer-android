@@ -1,6 +1,7 @@
 package com.cookpad.android.minicookpad.datasource
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
@@ -16,7 +17,9 @@ class FirebaseImageDataSource : ImageDataSource {
         val imageRef = "$COLLECTION_PATH/${UUID.randomUUID()}" // "images/87360ebc00235b3b9b03e1716844de57" のようなパスにアップロード
         reference.child(imageRef).putFile(Uri.parse(uri))
             .addOnSuccessListener { onSuccess.invoke(imageRef) }
-            .addOnFailureListener(onFailed)
+            .addOnFailureListener { exception ->
+                onFailed.invoke(exception)
+            }
     }
 
     private companion object {

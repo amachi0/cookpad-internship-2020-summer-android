@@ -1,25 +1,13 @@
 package com.cookpad.android.minicookpad.recipe_create
 
-import android.net.Uri
 import com.cookpad.android.minicookpad.datasource.ImageDataSource
 import com.cookpad.android.minicookpad.datasource.RecipeDataSource
 import com.cookpad.android.minicookpad.datasource.RecipeEntity
 
-class RecipeCreateInteractor : RecipeCreateContract.Interactor {
-    lateinit var recipeDataSource: RecipeDataSource
-    lateinit var imageDataSource: ImageDataSource
-    fun uploadImage(
-        imageUri: String,
-        onSuccess: (imageRef: String) -> Unit,
-        onFailed: (Throwable) -> Unit
-    ) {
-        imageDataSource.saveImage(
-            imageUri,
-            onSuccess = { imageRef -> onSuccess(imageRef) },
-            onFailed = { throwable -> onFailed(throwable) }
-        )
-    }
-
+class RecipeCreateInteractor(
+    private val recipeDataSource: RecipeDataSource,
+    private val imageDataSource: ImageDataSource
+) : RecipeCreateContract.Interactor {
     override fun saveRecipe(
         recipe: RecipeCreateContract.Recipe,
         onSuccess: () -> Unit,
@@ -33,7 +21,7 @@ class RecipeCreateInteractor : RecipeCreateContract.Interactor {
                         title = recipe.title,
                         imagePath = imageRef,
                         steps = recipe.steps,
-                        authorName = recipe.authorName
+                        authorName = "クックパド美"
                     ),
                     onSuccess = { onSuccess() },
                     onFailed = { throwable ->  onFailed(throwable) }

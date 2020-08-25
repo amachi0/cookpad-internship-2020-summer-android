@@ -1,7 +1,5 @@
 package com.cookpad.android.minicookpad.datasource
 
-import com.cookpad.android.minicookpad.recipe_create.RecipeCreateContract
-import com.cookpad.android.minicookpad.recipelist.RecipeListContract
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FirebaseRecipeDataSource : RecipeDataSource {
@@ -17,10 +15,10 @@ class FirebaseRecipeDataSource : RecipeDataSource {
             .addOnFailureListener(onFailed)
     }
 
-    override fun save(recipe: RecipeEntity, onSuccess: (List<RecipeEntity>) -> Unit, onFailed: (Throwable) -> Unit) {
+    override fun save(recipe: RecipeEntity, onSuccess: () -> Unit, onFailed: (Throwable) -> Unit) {
         db.collection("recipes")
             .add(recipe.toMap())
-            .addOnSuccessListener {}
-            .addOnFailureListener {}
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { exception ->  onFailed(exception) }
     }
 }

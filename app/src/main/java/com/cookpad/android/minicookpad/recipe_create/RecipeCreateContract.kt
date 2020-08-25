@@ -1,13 +1,9 @@
 package com.cookpad.android.minicookpad.recipe_create
 
-import android.app.Activity
-import android.net.Uri
-
 interface RecipeCreateContract {
     interface View {
-        fun renderRecipeImage(imageUri: Uri)
-        fun uploadImageError(throwable: Throwable)
-        fun uploadDatabaseError(throwable: Throwable)
+        fun renderSuccess()
+        fun renderError(throwable: Throwable)
     }
 
     interface Interactor {
@@ -15,19 +11,16 @@ interface RecipeCreateContract {
     }
 
     interface Presenter {
-        fun onImageUploaded(imageUir: String)
-        fun onSendClicked(recipe: Recipe)
-        fun onRecipeListRequested(activity: Activity)
+        fun onSaveRequested(recipe: Recipe)
     }
 
     interface Routing {
-        fun navigateRecipeList(activity: Activity)
+        fun navigateRecipeList()
     }
 
     data class Recipe(
         val title: String,
         val imageUri: String,
-        val steps: List<String>,
-        val authorName: String = "クックパド美"
+        val steps: List<String>
     )
 }
