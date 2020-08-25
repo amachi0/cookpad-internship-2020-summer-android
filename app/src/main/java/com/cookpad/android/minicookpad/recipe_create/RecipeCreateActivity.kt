@@ -66,4 +66,12 @@ class RecipeCreateActivity : AppCompatActivity() {
 
         override fun parseResult(resultCode: Int, intent: Intent?): Uri? = intent?.data
     }
+
+    override fun renderSuccess() {
+        Toast.makeText(applicationContext, "Success to upload recipe!!", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun renderError(throwable: Throwable) {
+        Toast.makeText(applicationContext, "Failed to upload recipe.", Toast.LENGTH_SHORT).show()
+    }
 }
